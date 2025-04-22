@@ -1,0 +1,113 @@
+"","mes-de-seq","especie","amostra","tag","total_no_reads_pool","threshold","OTU","no_reads_OTU","final_fate","family","genus","double_checked_CIM","first_species_BLAST","first_species_BOLD","species","seeds_found","notes"
+"1","Nov-2023","branco","branco","A",2291,1,"P06_A_01",18,1,"Melastomataceae",NA,NA,"Miconia pusilliflora",NA,NA,NA,NA
+"2","Nov-2023","branco","branco","A",2291,1,"P06_A_02",10,1,"Bignoniaceae",NA,NA,"Sampaiella trichoclada",NA,NA,NA,NA
+"3","Nov-2023","branco","branco","A",2291,1,"P06_A_03",5,1,"Moraceae","Morus",NA,"Morus nigra",NA,NA,NA,NA
+"4","Nov-2023","branco","branco","B",2291,1,"P06_B_01",1387,1,"Melastomataceae",NA,NA,"Miconia pusilliflora",NA,NA,NA,NA
+"5","Nov-2023","Turdus leucomelas","053","A",23036,11,"P05_A_01",837,1,"Salicaceae","Casearia","X","Casearia sylvestris",NA,NA,NA,NA
+"6","Nov-2023","Turdus leucomelas","053","A",23036,11,"P05_A_02",43,1,"Lauraceae","Ocotea","X","Cinnamomum nitidum",NA,NA,NA,NA
+"7","Nov-2023","Tachyphonus coronatus","070","B",23036,11,"P05_B_01",18106,1,"Salicaceae","Casearia","X","Casearia sylvestris",NA,NA,NA,NA
+"8","Nov-2023","Tachyphonus coronatus","070","B",23036,11,"P05_B_02",15,1,"Solanaceae","Cestrum","X","Nicotiana solanifolia",NA,NA,NA,NA
+"9","Nov-2023","Turdus amaurochalinus","199","C",23036,11,"P05_C_01",35,1,"Sapindaceae","Allophylus",NA,"Allophylus edulis",NA,NA,NA,NA
+"10","Nov-2023","Tachyphonus coronatus","253","E",23036,11,"P05_E_01",231,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"11","Nov-2023","Turdus leucomelas","198","H",23036,11,"P05_H_01",62,1,"Myrtaceae","Eugenia",NA,"Psidium cattleyanum",NA,NA,NA,"leave at family level,, check seeds"
+"12","Nov-2023","Antilophia galeata","132","A",23830,12,"P01_A_01",1236,1,"Melastomataceae","Miconia",NA,"Miconia",NA,NA,NA,NA
+"13","Nov-2023","Antilophia galeata","132","A",23830,12,"P01_A_02",501,1,"Boraginaceae","Cordia",NA,"Cordia spinescens",NA,NA,NA,NA
+"14","Nov-2023","Antilophia galeata","132","A",23830,12,"P01_A_03",30,1,"Araliaceae","Dendropanax",NA,"Eleutherococcus gracilistylus",NA,NA,NA,NA
+"15","Nov-2023","Antilophia galeata","132","A",23830,12,"P01_A_05",56,1,"Boraginaceae","Cordia",NA,"Cordia spinescens",NA,NA,NA,NA
+"16","Nov-2023","Antilophia galeata","132","A",23830,12,"P01_A_06",12,1,"Melastomataceae","Miconia",NA,"Henriettea glabra",NA,NA,NA,"acabei classificando como Miconia pq n<e3>o tem Henreittea na region, confirma que n<e3>o <e9> Leandra"
+"17","Nov-2023","Antilophia galeata","113","B",23830,12,"P01_B_01",16039,1,"Rubiaceae","Psychotria",NA,"Psychotria mangenotii",NA,NA,NA,NA
+"18","Nov-2023","Antilophia galeata","113","B",23830,12,"P01_B_02",44,1,"Euphorbiaceae","Alchornea",NA,"Alchornea glandulosa",NA,NA,NA,NA
+"19","Nov-2023","Antilophia galeata","113","B",23830,12,"P01_B_03",44,1,"Rubiaceae","Psychotria",NA,"Psychotria sp.",NA,NA,NA,"Psychotria vellosiana"
+"20","Nov-2023","Antilophia galeata","113","B",23830,12,"P01_B_04",28,1,"Rubiaceae","Psychotria",NA,"Psychotria sp.",NA,NA,NA,NA
+"21","Nov-2023","Antilophia galeata","113","B",23830,12,"P01_B_06",18,1,"Rubiaceae","Psychotria",NA,"Palicourea guianensis",NA,NA,NA,NA
+"22","Nov-2023","Antilophia galeata","297","C",23830,12,"P01_C_01",32,1,"Siparunaceae","Siparuna",NA,"Siparuna guianensis",NA,"guianensis",NA,NA
+"23","Nov-2023","Antilophia galeata","381","D",23830,12,"P01_D_01",201,1,"Rubiaceae","Psychotria",NA,"Palicourea guianensis",NA,NA,NA,NA
+"24","Nov-2023","Antilophia galeata","381","D",23830,12,"P01_D_02",51,1,"Verbenaceae","Lippia/Lantana",NA,"Lippia origanoides",NA,NA,NA,"Lippia or Lantana"
+"25","Nov-2023","Manacus manacus","468","E",23830,12,"P01_E_01",163,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"26","Nov-2023","Antilophia galeata","482","H",23830,12,"P01_H_01",22,1,"Primulaceae","Stylogyne",NA,"Embelia philippinensis",NA,NA,NA,"changed ID on 31/july/2024"
+"27","Nov-2023","Antilophia galeata","482","H",23830,12,"P01_H_02",20,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"28","Nov-2023","Manacus manacus","064","A",25904,13,"P02_A_01",808,1,"Melastomataceae","Miconia","X","Miconia pusilliflora",NA,NA,NA,NA
+"29","Nov-2023","Eucometis penicillata","052","B",25904,13,"P02_B_01",20227,1,"Salicaceae","Casearia","X","Casearia sylvestris",NA,NA,NA,NA
+"30","Nov-2023","Antilophia galeata","410","C",25904,13,"P02_C_01",106,1,"Myrtaceae","Myrcia",NA,"Myrciaria floribunda",NA,"floribunda",NA,"in neighboring plot"
+"31","Nov-2023","Antilophia galeata","412","D",25904,13,"P02_D_01",242,1,"Meliaceae","Trichilia",NA,"Dysoxylum carolinae",NA,"pallida",NA,NA
+"32","Nov-2023","Antilophia galeata","255","E",25904,13,"P02_E_01",201,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"33","Nov-2023","Antilophia galeata","268","H",25904,13,"P02_H_01",18,1,"Myrtaceae","Psidium",NA,"Psidium cattleyanum",NA,NA,NA,"leave at family level"
+"34","Nov-2023","Turdus leucomelas","201","B",30995,15,"P04_B_01",20305,1,"Myrtaceae","Eugenia",NA,"Myrcianthes pungens",NA,NA,NA,NA
+"35","Nov-2023","Turdus leucomelas","201","B",30995,15,"P04_B_02",2449,1,"Sapindaceae","Allophylus",NA,"Allophylus edulis",NA,NA,NA,NA
+"36","Nov-2023","Turdus leucomelas","073","C",30995,15,"P04_C_01",49,1,"Solanaceae","Cestrum","X","Nicotiana solanifolia",NA,NA,NA,NA
+"37","Nov-2023","Pitangus sulphuratus","242","D",30995,15,"P04_D_01",376,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"38","Nov-2023","Tachyphonus coronatus","419","E",30995,15,"P04_E_01",93,1,"Amaranthaceae","Chamissoa",NA,"Chamissoa altissima",NA,NA,NA,"Chamissoa or Amaranthus"
+"39","Nov-2023","Tachyphonus coronatus","419","E",30995,15,"P04_E_02",31,1,"Piperaceae","Piper",NA,"Piper amalago",NA,"amalago",NA,NA
+"40","Nov-2023","Turdus amaurochalinus","181","H",30995,15,"P04_H_01",56,1,"Melastomataceae","Miconia","X","Miconia pusilliflora",NA,NA,NA,NA
+"41","Jun-2023","Ramphocelus carbo","269","B",44492,2,"P00_B_01",42742,1,"Melastomataceae","Miconia",NA,"Miconia",NA,NA,NA,NA
+"42","Jun-2023","Turdus leucomelas","027","A",44492,2,"P00_A_01",896,1,"Moraceae","Morus","X","Morus sp.",NA,NA,NA,NA
+"43","Jun-2023","Ramphocelus carbo","269","B",44492,2,"P00_B_03",823,1,"Melastomataceae","Miconia",NA,"Henriettea glabra",NA,NA,NA,"acabei classificando como Miconia pq n<e3>o tem Henreittea na region, confirma que n<e3>o <e9> Leandra"
+"44","Nov-2023","Manacus manacus","286","B",43495,22,"P03_B_01",19259,1,"Asteraceae","Tilesia",NA,"Wollastonia biflora",NA,"baccata",NA,"Tilesia or Wollastonia, either way, introduced"
+"45","Nov-2023","Manacus manacus","286","B",43495,22,"P03_B_02",4900,1,"Heliotropiaceae","Myriopus",NA,"Myriopus salzmannii",NA,NA,NA,"Tournefortia volubilis? https://www.colecionandofrutas.com.br/tournefortiarubicunda.htm Myriopus cf. rubicundus"
+"46","Nov-2023","Manacus manacus","286","B",43495,22,"P03_B_03",2586,1,"Sapindaceae","Serjania/Paullinia",NA,"Serjania brachycarpa",NA,NA,NA,"Serjania or Paullinia"
+"47","Nov-2023","Eucometis penicillata","084","D",43495,22,"P03_D_01",216,1,"Salicaceae","Casearia","X","Casearia sylvestris",NA,NA,NA,NA
+"48","Nov-2023","Antilophia galeata","195","E",43495,22,"P03_E_01",74,1,"Rosaceae","Rubus",NA,"Rubus amabilis",NA,NA,NA,"check seeds"
+"49","Jul-2024","Manacus manacus","437","A",1107,1,"P07_A_01",18,1,"Meliaceae","Trichilia",NA,"Aphanamixis polystachya","Trichilia poeppigii",NA,NA,NA
+"50","Jul-2024","Manacus manacus","437","A",1107,1,"P07_A_02",25,1,"Fabaceae","Centrolobium",NA,"Centrolobium tomentosum","Pterocarpus soyauxii","tomentosum",NA,"Pterocarpus also"
+"51","Jul-2024","Tachyphonus coronatus","272","B",1107,1,"P07_B_01",449,1,"Piperaceae","Piper",NA,"Piper amalago","Piper amalago","amalago",NA,"same as seeds found!"
+"52","Jul-2024","Tachyphonus coronatus","272","B",1107,1,"P07_B_02",45,1,"Salicaceae","Casearia",NA,"Casearia sylvestris","Casearia sylvestris",NA,NA,NA
+"53","Jul-2024","Tachyphonus coronatus","420","E",1107,1,"P07_E_01",4,1,"Piperaceae","Piper",NA,"Piper amalago","Piper sp.",NA,1,"same as seeds found!"
+"54","Jul-2024","Myiarchus ferox","241","B",291,0,"P08_B_01",88,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora","Clidemia urceolata",NA,1,"same as seeds found! but detected as contamination? and < 97 reads, excluded sample"
+"55","Jul-2024","Eucometis penicillata","040","A",25923,13,"P09_A_01",136,1,"Salicaceae","Casearia","X","Casearia sylvestris","Casearia sylvestris",NA,1,"same as seeds found!"
+"56","Jul-2024","Antilophia galeata","384","B",25923,13,"P09_B_01",19882,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora","Clidemia urceolata",NA,NA,">97 reads"
+"57","Jul-2024","Antilophia galeata","384","B",25923,13,"P09_B_02",31,1,"Euphorbiaceae","Alchornea",NA,"Alchornea glandulosa","Alchornea costaricensis",NA,NA,NA
+"58","Jul-2024","Antilophia galeata","087","C",25923,13,"P09_C_01",114,1,"Myrtaceae","Myrcia","X","Calyptranthes concinna","Calyptranthes chiapensis",NA,NA,"esse genero n<e3>o existe mais, <e9> tudo Myrcia agora"
+"59","Jul-2024","Manacus manacus","287","D",25923,13,"P09_D_01",50,1,"Cannabaceae","Trema",NA,"Trema lamarckianum","Muntingia calabura",NA,NA,"Muntingiaceae on BOLD"
+"60","Jul-2024","Manacus manacus","287","D",25923,13,"P09_D_02",20,1,"Melastomataceae","Miconia",NA,"Miconia melastomoides","Clidemia urceolata",NA,NA,NA
+"61","Jul-2024","Antilophia galeata","290","E",25923,13,"P09_E_01",146,1,"Myrtaceae","Psidium",NA,"Psidium cattleyanum","Eugenia/Psidium",NA,NA,NA
+"62","Jul-2024","Nemosia pileata","050","H",25923,13,"P09_H_01",23,1,"Salicaceae","Casearia","X","Casearia sylvestris","Casearia sylvestris",NA,NA,NA
+"63","Jul-2024","Myiarchus ferox","246","A",14221,7,"P10_A_01",1271,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora","Clidemia urceolata",NA,NA,NA
+"64","Jul-2024","Myiarchus ferox","246","A",14221,7,"P10_A_02",25,1,"Malpighiaceae","Banisteriopsis",NA,"Banisteriopsis caapi","Banisteriopsis muricata",NA,NA,"not contamination bc with tag A, not B, and > 7 reads"
+"65","Jul-2024","Myiarchus ferox","246","A",14221,7,"P10_A_03",9,1,"Solanaceae","Solanum",NA,"Capsicum annuum","Datura stramonium",NA,NA,NA
+"66","Jul-2024","Myiarchus ferox","246","A",14221,7,"P10_A_04",7,1,"Myrtaceae","Syzygium",NA,"Syzygium tympananthum","Eugenia erythrophylla",NA,NA,NA
+"67","Jul-2024","Myiarchus ferox","136","B",14221,7,"P10_B_01",4048,1,"Fabaceae","Albizia",NA,"Schleichera oleosa","Albizia coriaria",NA,NA,"Fabaceae according to BOLD"
+"68","Jul-2024","Myiarchus ferox","136","B",14221,7,"P10_B_06",3055,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora","Clidemia urceolata",NA,NA,">97 reads"
+"69","Jul-2024","Myiarchus ferox","136","B",14221,7,"P10_B_07",565,1,"Fabaceae","Albizia",NA,"Myroxylon peruiferum","Albizia occidentalis",NA,NA,"Fabaceae according to BOLD"
+"70","Jul-2024","Myiarchus ferox","136","B",14221,7,"P10_B_10",42,1,"Solanaceae","Solanum",NA,"Capsicum annuum","Datura stramonium",NA,NA,NA
+"71","Jul-2024","Myiarchus ferox","136","B",14221,7,"P10_B_11",27,1,"Apocynaceae","Aspidosperma",NA,"Aspidosperma ramiflorum","Aspidosperma spruceanum",NA,NA,NA
+"72","Jul-2024","Pitangus sulphuratus","243","C",14221,7,"P10_C_01",59,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora","Clidemia urceolata",NA,NA,NA
+"73","Jul-2024","Turdus amaurochalinus","477","D",14221,7,"P10_D_01",37,1,"Moraceae","Morus",NA,"Milicia regia","Streblus pendulinus",NA,NA,NA
+"74","Jul-2024","Turdus amaurochalinus","477","D",14221,7,"P10_D_02",14,1,"Rosaceae","Rubus",NA,"Rubus amabilis","Rubus trivialis",NA,NA,NA
+"75","Jul-2024","Turdus leucomelas","481","E",14221,7,"P10_E_01",34,1,"Arecaceae","Syagrus",NA,"Sabal yapa","Acrocomia aculeata",NA,NA,"Syagrus?"
+"76","Jul-2024","Turdus leucomelas","481","E",14221,7,"P10_E_02",18,1,"Meliaceae","Guarea",NA,"Guarea guidonia","Guarea guidonia",NA,NA,NA
+"77","Jul-2024","Turdus leucomelas","481","E",14221,7,"P10_E_03",9,1,"Primulaceae","Stylogyne",NA,"Embelia philippinensis","Stylogyne cauliflora",NA,NA,NA
+"78","Jul-2024","Tachyphonus coronatus","432","H",14221,7,"P10_H_01",24,1,"Salicaceae","Casearia",NA,"Casearia sylvestris","Casearia praecox",NA,NA,NA
+"79","Jul-2024","Ramphocelus carbo","110","A",16177,8,"P11_A_01",1310,1,"Solanaeceae","Cestrum",NA,"Nicotiana solanifolia","Nicotiana rustica",NA,NA,NA
+"80","Jul-2024","Ramphocelus carbo","110","A",16177,8,"P11_A_02",100,1,"Urticaceae","Cecropia",NA,"Cecropia pachystachya",NA,NA,NA,NA
+"81","Jul-2024","Ramphocelus carbo","110","A",16177,8,"P11_A_03",16,1,"Euphorbiaceae","Alchornea",NA,"Alchornea glandulosa",NA,NA,NA,NA
+"82","Jul-2024","Ramphocelus carbo","110","A",16177,8,"P11_A_04",31,1,"Rhamnaceae","Gouania",NA,"Gouania lupuloides",NA,NA,NA,NA
+"83","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_01",4892,1,"Bignoniaceae","Amphilophium",NA,"Amphilophium steyermarkii",NA,NA,NA,"native, climbing"
+"84","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_02",1876,1,"Urticaceae","Cecropia",NA,"Cecropia palmata",NA,NA,NA,NA
+"85","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_03",735,1,"Sapindaceae","Serjania/Paullinia",NA,"Serjania brachycarpa",NA,NA,NA,NA
+"86","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_04",500,1,"Solanaceae","Solanum",NA,"Capsicum annuum",NA,NA,NA,"pimenta, maybe cultivated, herbaceous"
+"87","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_07",111,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,"> 97 reads"
+"88","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_08",94,1,"Sapinidaceae","Allophylus",NA,"Rhysotoechia florulenta",NA,NA,NA,NA
+"89","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_13",38,1,"Verbenaceae","Citharexylum",NA,"Chaenorhinum minus",NA,NA,NA,NA
+"90","Jul-2024","Antilophia galeata","447","B",16177,8,"P11_B_17",16,1,"Solanaceae","Nicotiana",NA,"Mandragora caulescens",NA,NA,NA,NA
+"91","Jul-2024","Ramphocelus carbo","103","D",16177,8,"P11_D_01",65,1,"Solanaeceae","Solanum","X","Nicotiana solanifolia",NA,NA,NA,NA
+"92","Jul-2024","Ramphocelus carbo","103","D",16177,8,"P11_D_02",94,1,"Boraginaceae","Cordia","X","Cordia spinescens",NA,NA,NA,NA
+"93","Jul-2024","Arremon flavirostris","099","E",16177,8,"P11_E_01",47,1,"Sapindaceae","Serjania/Paullinia",NA,"Serjania brachycarpa",NA,NA,NA,NA
+"94","Jul-2024","Arremon flavirostris","099","E",16177,8,"P11_E_02",26,1,"Solanaeceae","Nicotiana",NA,"Nicotiana solanifolia",NA,NA,NA,"small solanaceae present is probably Solanum americananum"
+"95","Jul-2024","Arremon flavirostris","099","E",16177,8,"P11_E_03",9,1,"Polygonaceae","Ruprechtia",NA,"Ruprechtia laxiflora",NA,NA,NA,NA
+"96","Jul-2024","Arremon flavirostris","271","H",16177,8,"P11_H_01",24,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"97","Jul-2024","Ramphocelus carbo","322","A",26460,13,"P12_A_01",1075,1,"Piperaceae","Piper",NA,"Piper chamissonis",NA,NA,NA,NA
+"98","Jul-2024","Ramphocelus carbo","322","A",26460,13,"P12_A_02",23,1,"Sapindaceae","Serjania/Paullinia",NA,"Serjania brachycarpa",NA,NA,NA,NA
+"99","Jul-2024","Cnemotriccus fuscatus","043","B",26460,13,"P12_B_01",18446,1,"Salicaceae","Casearia","X","Casearia sylvestris",NA,NA,NA,NA
+"100","Jul-2024","Cnemotriccus fuscatus","043","B",26460,13,"P12_B_02",1000,1,"Meliaceae","Trichilia","X","Dysoxylum densiflorum",NA,NA,NA,NA
+"101","Jul-2024","Cnemotriccus fuscatus","043","B",26460,13,"P12_B_03",146,1,"Combretaceae","Terminalia","X","Terminalia guyanensis",NA,NA,NA,NA
+"102","Jul-2024","Cnemotriccus fuscatus","043","B",26460,13,"P12_B_07",25,1,"Salicaceae","Casearia","X","Ryania speciosa",NA,NA,NA,NA
+"103","Jul-2024","Thraupis sayaca","212","C",26460,13,"P12_C_01",39,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"104","Jul-2024","Thraupis sayaca","212","C",26460,13,"P12_C_02",28,1,"Moraceae","Maclura",NA,"Maclura tinctoria",NA,NA,NA,NA
+"105","Jul-2024","Pitangus sulphuratus","244","D",26460,13,"P12_D_01",104,1,"Myrtaceae","Psidium","X","Psidium cattleyanum",NA,NA,NA,NA
+"106","Jul-2024","Turdus leucomelas","257","E",26460,13,"P12_E_01",68,1,"Myrtaceae","Syzygium",NA,"Syzygium cumini",NA,NA,NA,NA
+"107","Jul-2024","Turdus leucomelas","257","E",26460,13,"P12_E_02",22,1,"Fabaceae","Senna",NA,"Conzattia multiflora",NA,NA,NA,NA
+"108","Jul-2024","Ramphocelus carbo","321","H",26460,13,"P12_H_01",24,1,"Solanaceae","Solanum",NA,"Solanum tuberosum",NA,NA,NA,NA
+"109","Jul-2024","branco","branco","A",996,0,"P13_A_01",22,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"110","Jul-2024","branco","branco","B",996,0,"P13_B_01",427,1,"Moraceae","Morus",NA,"Milicia regia",NA,NA,NA,NA
+"111","Jul-2024","branco","branco","B",996,0,"P13_B_02",97,1,"Melastomataceae","Miconia",NA,"Miconia pusilliflora",NA,NA,NA,NA
+"112","Jul-2024","branco","branco","B",996,0,"P13_B_03",7,1,"Malpighiaceae","Banisteriopsis",NA,"Banisteriopsis caapi",NA,NA,NA,NA

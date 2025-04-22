@@ -37,7 +37,6 @@
   package.list <- c("here", #makes this project the working directory
                     "tidyverse", #data cleaning
                     "dplyr", #data cleaning
-                    #"bipartite",
                     "reshape2", 
                     "igraph",
                     "VennDiagram", #VennDiagram figure
@@ -152,7 +151,7 @@
       
     ##3.2.3 MERGE SEED AND SEED MORPHOLOGY DATA----
       
-      sem_morph <- merge(x=sem_1, y=morpho, by="morpho_spp", all.x =T)
+      sem_morph <- merge(x=sem, y=morpho, by="morpho_spp", all.x =T)
       
       #sem_morph_2 <- merge(x=sem_2, y=morpho, by="morpho_spp", all.x =T)
       
@@ -213,7 +212,7 @@
     #sequenced 
     
     spp_gen_suc <- sem_morph_seq %>%
-      group_by(species) %>%
+      group_by(bird_species) %>%
       summarize(n = n_distinct(sample))
     
     write.csv(spp_gen_suc, here::here( "figures&results",
@@ -514,7 +513,7 @@
         
         #number of genera per ind
         t_reads_gen_fil_ind <- gen_sem %>%
-          filter(!grepl("blank", sample), !is.na(OTU)) %>%
+          filter(!grepl("blank", sample),!is.na(OTU)) %>%
           filter(final_fate == 1)  %>%
           group_by(sample) %>%
           summarise(n_gen_ind = n_distinct(plant_genus))
@@ -525,20 +524,7 @@
         
       ###4.2.3 OTU AND READ FATE SUMMARY------
         
-        OTU_fate_summary <- gen_sem %>%
-          filter(!grepl("branco", amostra),!is.na(OTU)) %>%
-          group_by(OTU) %>%
-          summarise(
-            final_fate = ifelse(any(final_fate == 1), "successful",
-                          ifelse(any(final_fate == 0), "insufficient_reads",
-                            ifelse(any(final_fate == 2), "insufficient_match",
-                              ifelse(any(final_fate == 3),"unsuccessful_seq", 
-                                ifelse(any(final_fate == 4), "contamination"))))
-            ), no_reads_OTU = no_reads_OTU)
-        
-        OTU_fate_counts <- OTU_fate_summary %>%
-          group_by(final_fate) %>%
-          summarise(total_OTUs = n_distinct(OTU), n_reads = sum(no_reads_OTU))
+ 
         
   ## 4.3 DETECTIONS: PLANT FAMILIES AND GENERA--------
         
@@ -736,9 +722,9 @@
       
          #by genus, with genera as columns and samples as rows 
          seed_mat <- sem_morph_seq %>%
-           group_by(sample, genus) %>%  # Group by samples and genera
+           group_by(sample, plant_genus) %>%  # Group by samples and genera
            summarise(occurrences = n(), .groups = 'drop') %>%  # Count occurrences for each sample-genus pair
-           pivot_wider(names_from = genus, values_from = occurrences,
+           pivot_wider(names_from = plant_genus, values_from = occurrences,
                        values_fill = 0) %>%  # Wide format: genera as columns
            column_to_rownames(var = "sample")
         
@@ -1381,6 +1367,10 @@
           cat.col = c("black", "black")
         )
         
+?venn.diagram
+
+citation("VennDiagram")
+
         # Display the Venn diagram
         grid.draw(venn.plot)       
         
