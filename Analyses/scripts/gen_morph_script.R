@@ -1,5 +1,5 @@
 ## Created: 02-October-2024
-## Updated: 18-April-2025
+## Updated: 25-April-2025
 
 ## Author: Carina Isabella Motta
 
@@ -34,23 +34,23 @@ for(i in package.list){library(i, character.only = T)}
 
 ## 2.1 LOAD SEED DATA----
 
-sem <- readr::read_csv(here::here("Analyses","data",                                "seeds_28MAR2025_2.csv"))
+seeds <- readr::read_csv(here::here("Analyses","data",                                "seeds_28MAR2025_2.csv"))
 
 #transform into a tibble to facilitate using packages like dyplr 
-sem <- as_tibble(sem)
+seeds <- as_tibble(sem)
 
 ## 2.2 LOAD SEED MORPHOSPECIES DATA----
 
 morpho <- readr::read_csv(here::here("Analyses", "data",                               "morpho_4APRIL2025.csv"))
 
-#transform into a tibble to faciliate using packages like dyplr 
+#transform into a tibble to facilitate using packages like dyplr 
 morpho <- as_tibble(morpho)
 
 ## 2.3 LOAD METABARCODING DATA----
 
 gen <- readr::read_csv(here::here("Analyses","data",                                          "metabarcoding_results.csv"))
 
-#transform into a tibble to faciliate using packages like dyplr 
+#transform into a tibble to facilitate using packages like dyplr 
 gen <- as_tibble(gen)
 
 # 3 DATA CLEANING AND PREP-------------------------------------------------------
@@ -60,7 +60,7 @@ gen <- as_tibble(gen)
 ### 3.1.1 SEED DATA-----
 
 # subset columns that we are interested in 
-sem <- sem %>% 
+seeds <- seeds %>% 
   select(3, 4, 6, 7, 8)
 
 ### 3.1.2 MORPHOLOGY DATA-----
@@ -71,7 +71,7 @@ morpho <- morpho %>%
 
 ### 3.1.3 MERGE SEED AND SEED MORPHOLOGY DATA----
 
-sem_morph <- merge(x=sem, y=morpho, by="morpho_spp", all.x =T)
+seeds.morph <- merge(x=seeds, y=morpho, by="morpho_spp", all.x =T)
 
 ##3.2 METABARCODING DATA----
 
@@ -85,64 +85,102 @@ gen <- gen[,-(16:32)]
 
 #filter to only include pools that include samples with seeds, and corresponding blanks
 
-gen_sem <- gen %>%
-  filter(pool %in% c("P_00", "P_01", "P_02", "P_03","P_04",                         "P_05", "P_06", "P_07", "P_08", "P_09",                        "P_10", "P_11", "P_12"))%>%
-  filter(seeds == 1 | grepl("blank", sample))
+gen.seeds <- gen %>%
+    filter(pool %in% c("P_00", "P_01", "P_02", "P_03","P_04", "P_05", "P_06",
+                       "P_07", "P_08", "P_09","P_10", "P_11", "P_12"))%>%
+    filter(seeds == 1 | grepl("blank", sample))
 
 
 # 4 SEED & SEED MORPHOLOGY SUMMARY STATISTICS----
 ## 4.1 ALL SAMPLES----
 
+n_distinct(seeds.morph$unique)
 
-n_distinct(sem_morph$unique)
+n_distinct(seeds.morph$plant_family)
 
-n_distinct(sem_morph$plant_family)
+n_distinct(seeds.morph$plant_genus)
 
-n_distinct(sem_morph$plant_genus)
+sum(seeds.morph$no_seeds)
 
-sum(sem_morph$no_seeds)
-
-bird.spp.morph <- sem_morph %>%
+bird.spp.all <- seeds.morph %>%
                   group_by(bird_species) %>%
-                  summarize(n = n_distinct(sample))
+                  summarize(n_all = n_distinct(sample))
 
 ## 4.2 SUCESSFULLY SEQUENCED SAMPLES----
-gen_sem_seq <- gen_sem %>% 
-               filter(final_fate == 1)
+gen.seeds.seq <- gen.seeds %>% 
+                 filter(final_fate == 1)
 
 #cross reference seed morphology data set with sequencing to only include 
 #the samples that were successfully sequenced. That way we can create our 
 #interaction webs using only data that is present in both data sets
 
-sem_morph_seq <- sem_morph %>%
-  filter(sample %in% gen_sem_seq$sample)
+seeds.morph.seq <- seeds.morph %>%
+  filter(sample %in% gen.seeds.seq$sample)
 
 #check to see if was correctly filtered, should have 52 samples now 
 
-n_distinct(sem_morph_seq$sample) # 52, correctly filtered 
+n_distinct(seeds.morph.seq$sample) # 52, correctly filtered 
 
 #check the number of morphospecies present after filtering out the samples 
 #that didn't successfully sequence, should be 36
 
-n_distinct(sem_morph_seq$unique)
+n_distinct(seeds.morph.seq$unique) # 36 morphospecies
+
+n_distinct(seeds.morph.seq$plant_family) #22 families
+
+# calculate number of genera, excluding morphospecies identified to family or
+# unknown
+
+n_distinct(seeds.morph.seq %>%
+    filter(!plant_genus %in% c("Fabaceae_1", "Amaranthaceae", "unknown_2", 
+                               "unknown_3", "unknown_4", "Myrtaceae_2")) %>%
+    pull(plant_genus)
+)
+
+# number of seeds 
+sum(seeds.morph.seq$no_seeds)
+
+### 4.2.1 MAKE TABLE 1----
 
 #create a table of how many samples of each species was successfully 
 #sequenced 
 
-spp_gen_suc <- sem_morph_seq %>%
+bird.spp.successful <- seeds.morph.seq %>%
   group_by(bird_species) %>%
-  summarize(n = n_distinct(sample))
+  summarize(n_successful = n_distinct(sample))
+# create a table of how many samples of each species were collected vs.
+# successfully sequenced (Table 1)
 
-n_distinct(sem_morph_seq$unique)
+bird.spp.samples <- merge(x=bird.spp.all, y=bird.spp.successful, 
+                          by="bird_species", all.x =T) 
 
-n_distinct(sem_morph_seq$plant_family)
+#fill NAs with 0s
+bird.spp.samples[is.na(bird.spp.samples)] <- 0
 
-n_distinct(sem_morph_seq$plant_genus)
+# save table as a .csv
+write.csv(bird.spp.samples, here::here("Analyses",
+                                       "figures&results", 
+                                       "Table_1.csv"))
 
-sum(sem_morph_seq$no_seeds)
 
+### 4.2.2 CALCULATE NUMBER OF PLANT TAXA PER SAMPLE ----
 
-### 4.2.1----
+seeds.summary.ind <- seeds.morph.seq %>% 
+  group_by(sample) %>%
+  summarise(n_taxa = n_distinct(plant_genus))
+
+mean(seeds.summary.ind$n_taxa)
+
+sd(seeds.summary.ind$n_taxa)
+
+### 4.2.3 CALCULATE NUMBER OF SAMPLES PER PLANT TAXA ----
+seeds.summary.plants <- seeds.morph.seq %>% 
+  group_by(plant_genus) %>%
+  summarise(n_samples = n_distinct(sample))
+
+mean(seeds.summary.plants$n_samples)
+
+sd(seeds.summary.plants$n_samples)
 
 # 5 METABARCODING SUMMARY STATISTICS----
 ## 5.1 FATE SUMMARIES----
@@ -155,7 +193,7 @@ sum(sem_morph_seq$no_seeds)
 # 4 means it was excluded due to suspected contamination 
 # 5 means that it was a blank sample that generated an OTU
 
-sample_fate <- gen_sem %>%
+sample.fate <- gen.seeds %>%
   filter(!grepl("blank", sample)) %>%
   group_by(sample) %>%
   summarise(
@@ -168,14 +206,15 @@ sample_fate <- gen_sem %>%
 
 #here we summarize, samples only fell into three categories:
 #   successful, unsuccessfully sequenced, or had insufficient reads
-#       while individual OTUs were deleted due to insufficient match or 
-#       contamination, those two were not motives for excluding samples
-sample_fate_summary <- sample_fate %>%
+#   while individual OTUs were deleted due to insufficient match or 
+#   contamination, those two were not motives for excluding samples
+sample.fate.summary <- sample.fate %>%
   group_by(final_fate) %>%
   summarise(total_samples = n())
 
+# now we summarize the OTU fates
 
-OTU_fate <- gen_sem %>%
+OTU.fate <- gen.seeds %>%
   filter(!grepl("blank", sample)) %>%
   group_by(OTU) %>%
   summarise(
@@ -187,61 +226,98 @@ OTU_fate <- gen_sem %>%
     no_reads_OTU = max(no_reads_OTU))%>%
   mutate(no_reads_OTU = replace_na(no_reads_OTU, 0))
 
-OTU_fate_summary <- OTU_fate %>%
+# create summary of OTU fates
+OTU.fate.summary <- OTU.fate %>%
   group_by(final_fate) %>%
   summarise(total_OTUs = n_distinct(OTU), n_reads = sum(no_reads_OTU))
 
 ## 5.2 READS & OTUs before quality filtering ---- 
-t_reads_OTU <- gen_sem %>%
+t.reads <- gen.seeds %>%
   filter(!grepl("blank", sample),!is.na(OTU))  %>%
   group_by(OTU) %>%
   summarise(t_reads = sum(no_reads_OTU))
 
 #the sum of reads
-sum(t_reads_OTU$t_reads)
+sum(t.reads$t_reads)
 
 #the mean number of reads per OTU
-mean(t_reads_OTU$t_reads)
+mean(t.reads$t_reads)
 
 #the standard deviation of reads
-sd(t_reads_OTU$t_reads)
+sd(t.reads$t_reads)
+
+# determine the number of OTUs recovered per sample
+t.OTU.sample <- gen.seeds %>%
+  filter(!grepl("blank", sample),!is.na(OTU))  %>%
+  group_by(sample) %>%
+  summarise(n_OTU = n_distinct(OTU))
+
+#mean number of OTUs recovered per sample
+mean(t.OTU.sample$n_OTU)
+
+#SD of number of OTUs recovered per sample
+sd(t.OTU.sample$n_OTU)
 
 ## 5.3 READS & OTUs after quality filtering ----- 
-t_reads_OTU_filtered <- gen_sem %>%
+t.reads.filtered <- gen.seeds %>%
   filter(final_fate == 1)  %>%
   group_by(OTU) %>%
-  summarise(t_reads = sum(no_reads_OTU))
+  summarise(t_reads_filtered = sum(no_reads_OTU))
 
 #the sum of reads
-sum(t_reads_OTU_filtered$t_reads)
+sum(t.reads.filtered$t_reads_filtered)
 
 #the mean number of reads per OTU
-mean(t_reads_OTU_filtered$t_reads)
+mean(t.reads.filtered$t_reads_filtered)
 
 #the standard deviation of reads
-sd(t_reads_OTU_filtered$t_reads)
+sd(t.reads.filtered$t_reads_filtered)
 
-#per dropping sample
-t_reads_sample_filtered <- gen_sem %>%
+#reads per dropping sample
+t.reads.sample.filtered <- gen.seeds %>%
   filter(final_fate == 1)  %>%
   group_by(sample) %>%
-  summarise(t_reads_sample = sum(no_reads_OTU))
+  summarise(t_reads_sample_filtered = sum(no_reads_OTU))
+
+mean(t.reads.sample.filtered$t_reads_sample_filtered)
+
+sd(t.reads.sample.filtered$t_reads_sample_filtered)
+
+#OTUs per dropping sample
+t.OTU.sample.filtered <- gen.seeds %>%
+  filter(final_fate == 1)  %>%
+  group_by(sample) %>%
+  summarise(n_OTU_filtered = n_distinct(OTU))
+
+mean(t.OTU.sample.filtered$n_OTU_filtered)
+
+sd(t.OTU.sample.filtered$n_OTU_filtered)
 
 ## 5.3 PLANT GENERA----
 
-n_plant_fam <- gen_sem %>%
+n.plants <- gen.seeds %>%
   filter(!grepl("blank", sample), !is.na(OTU)) %>%
   filter(final_fate == 1)  %>%
-  summarise(n_plant_fam = n_distinct(plant_family), 
-            n_plant_genera = n_distinct(plant_genus))
+  group_by(plant_family, plant_genus) %>%
+  summarise(n_plant_fam = n_distinct(sample), 
+            n_plant_genera = n_distinct(sample))
 
-n_plant_fam$n_plant_fam
+n_distinct(n.plants$plant_family)
+
+n_distinct(n.plants$plant_genus)
+
+n_distinct(n.plants %>%
+          filter(!plant_genus %in% c("Serjania/Paullinia", "Lippia/Lantana")) %>%
+             pull(plant_genus)
+)
+
+
 
 # 6 TRIPARTITE VISUALIZATION ----
 ## 6.1 CREATE INTERACTION MATRIX WITH GENETIC DATA-----
 
 # Create genetic matrix
-gen_mat <- gen_sem_seq %>%
+gen.matrix <- gen.seeds.seq %>%
   group_by(sample, plant_genus) %>%
   summarise(occurrences = n(), .groups = 'drop') %>%
   pivot_wider(names_from = plant_genus, 
@@ -250,28 +326,27 @@ gen_mat <- gen_sem_seq %>%
   column_to_rownames(var = "sample")
 
 # Convert to presence/absence (1/0)
-gen_mat[gen_mat > 1] <- 1
+gen.matrix[gen.matrix > 1] <- 1
 
 # Prepare for visualization
 
 
 # Add rownames as column for melting
-gen_mat_with_rowname <- rownames_to_column(gen_mat, var = "Sample")
+gen.matrix.w.rowname <- rownames_to_column(gen.matrix, var = "Sample")
 
 # Transform to long format
-gen_list <- melt(gen_mat_with_rowname)
-colnames(gen_list) <- c("Sample", "Genus", "Weight")
+genetic.list <- melt(gen.matrix.w.rowname)
 
-# Ensure presence/absence (1/0)
-gen_list$Weight[gen_list$Weight > 1] <- 1
+#rename columns
+colnames(genetic.list) <- c("Sample", "Taxa", "Detections")
 
 # Filter to only positive detections
-df_gen <- subset(gen_list, Weight >= 1)
+df.genetic <- subset(genetic.list, Detections >= 1)
 
 # Define factor orders
 
 # Sample order
-desired_order_samples <- c(
+desired.order.samples <- c(
   "040", "050", "052", "084", "070", "043", "053", "272", 
   "432", "073", "419", "322", "468", "437", "286", "099",
   "110", "136", "287", "257", "412", "381", "113", "447", 
@@ -282,7 +357,7 @@ desired_order_samples <- c(
 )
 
 # Genus order
-desired_order_gen <- c(
+desired.order.taxa <- c(
   "Casearia", "Ocotea", "Terminalia", "Trichilia", "Cestrum",
   "Chamissoa", "Piper", "Cecropia", "Serjania/Paullinia",
   "Centrolobium", "Myriopus", "Tilesia", "Ruprechtia", 
@@ -296,14 +371,14 @@ desired_order_gen <- c(
 )
 
 # Set factor levels
-df_gen$Sample <- factor(df_gen$Sample, levels = desired_order_samples)
-df_gen$Genus <- factor(df_gen$Genus, levels = desired_order_gen)
+df.genetic$Sample <- factor(df.genetic$Sample, levels = desired.order.samples)
+df.genetic$Taxa <- factor(df.genetic$Taxa, levels = desired.order.taxa)
 
 # Create alluvial plot
 
-gen_plot <- ggplot(df_gen,
-                   aes(axis1 = Sample, axis2 = Genus, y = Weight)) +
-  geom_alluvium(aes(fill = Genus), width = 0.1, alpha = 0.7) +
+genetic.plot <- ggplot(df.genetic,
+                   aes(axis1 = Sample, axis2 = Taxa, y = Detections)) +
+  geom_alluvium(aes(fill = Taxa), width = 0.1, alpha = 0.7) +
   geom_stratum(width = 0.2, fill = "gray", color = "black") +
   geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
   scale_x_discrete(limits = c("Genera", "Sample"), expand = c(0.1, 0.1)) +
@@ -335,13 +410,13 @@ gen_plot <- ggplot(df_gen,
       "Syagrus" = "#000000", "Myrciaria" = "#000000"
     ))
 
-gen_plot
+genetic.plot
 
 # Save outputs
 
 ggsave(
   filename = "gen_graph.svg",
-  plot = gen_plot,
+  plot = genetic.plot,
   width = 4,
   height = 16,
   dpi = 720
@@ -351,7 +426,7 @@ ggsave(
 
 # Create morphology matrix
 
-seed_mat <- sem_morph_seq %>%
+seed.matrix <- seeds.morph.seq %>%
   group_by(sample, plant_genus) %>%
   summarise(occurrences = n(), .groups = 'drop') %>%
   pivot_wider(names_from = plant_genus, 
@@ -362,25 +437,26 @@ seed_mat <- sem_morph_seq %>%
 # Prepare for visualization
 
 # Add rownames as column for melting
-seed_mat_with_rowname <- rownames_to_column(seed_mat, var = "Sample")
+seed.matrix.w.rowname <- rownames_to_column(seed.matrix, var = "Sample")
 
 # Transform to long format
-seed_list <- melt(seed_mat_with_rowname)
-colnames(seed_list) <- c("Sample", "Genus", "Weight")
+seed.list <- melt(seed.matrix.w.rowname)
+
+colnames(seed.list) <- c("Sample", "Taxa", "Detections")
 
 # Ensure presence/absence (1/0)
-seed_list$Weight[seed_list$Weight > 1] <- 1
+seed.list$Detections[seed.list$Detections > 1] <- 1
 
 # Save intermediate matrix
 #write.csv(seed_mat, here::here("figures&results", "seed_mat.csv"))
 
 # Filter to only positive detections
-df_seed <- subset(seed_list, Weight >= 1)
+df.seed <- subset(seed.list, Detections >= 1)
 
 # Define factor orders
 
 # Genus order for morphology data
-desired_order_seed <- c(
+desired.order.seed <- c(
   "Casearia", "Trichilia", "unknown_3", "Piper", 
   "unknown_4", "Cestrum", "Chamissoa", "Amaranthaceae",
   "Nicotiana", "Tilesia", "Alchornea", "Cecropia", 
@@ -392,15 +468,15 @@ desired_order_seed <- c(
 )
 
 # Set factor levels (using same sample order as genetic data)
-df_seed$Sample <- factor(df_seed$Sample, levels = desired_order_samples)
-df_seed$Genus <- factor(df_seed$Genus, levels = desired_order_seed)
+df.seed$Sample <- factor(df.seed$Sample, levels = desired.order.samples)
+df.seed$Taxa <- factor(df.seed$Taxa, levels = desired.order.seed)
 
 
 # Create alluvial plot
 
-morph_plot <- ggplot(df_seed,
-                     aes(axis1 = Genus, axis2 = Sample, y = Weight)) +
-  geom_alluvium(aes(fill = Genus), width = 0.1, alpha = 0.7) +
+morph.plot <- ggplot(df.seed,
+                     aes(axis1 = Taxa, axis2 = Sample, y = Detections)) +
+  geom_alluvium(aes(fill = Taxa), width = 0.1, alpha = 0.7) +
   geom_stratum(width = 0.2, fill = "gray", color = "black") +
   geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
   scale_x_discrete(limits = c("Genera", "Sample"), expand = c(0.1, 0.1)) +
@@ -442,7 +518,7 @@ morph_plot <- ggplot(df_seed,
     )
   )
 
-morph_plot
+morph.plot
 
 # save outputs 
 ggsave(
@@ -453,64 +529,77 @@ ggsave(
   dpi = 720
 )
 
-write.csv(df_seed, here::here("figures&results", "df_seed.csv"))
+#write.csv(df_seed, here::here("figures&results", "df_seed.csv"))
+
 # 7 JACCARD INDEX ----
 ## 7.1 CREATE MATRICES OF THE TWO DATASETS WITH MATCHING DIMENSIONS----
 
 # Convert genetic matrix to long format
-gen_mat_with_rowname <- rownames_to_column(gen_mat, var = "Sample")
-gen_list <- melt(gen_mat_with_rowname)
-colnames(gen_list) <- c("Sample", "Genus", "Weight")
-
-# Convert to presence/absence (1/0)
-gen_list$Weight[gen_list$Weight > 1] <- 1
-
-# Convert morphology matrix to long format
-seed_mat_with_rowname <- rownames_to_column(seed_mat, var = "Sample")
-seed_list <- melt(seed_mat_with_rowname)
-colnames(seed_list) <- c("Sample", "Genus", "Weight")
-
-# Convert to presence/absence (1/0)
-seed_list$Weight[seed_list$Weight > 1] <- 1
+# gen.matrix.w.rowname <- rownames_to_column(gen.matrix, var = "Sample")
+# gen_list <- melt(gen_mat_with_rowname)
+# colnames(gen_list) <- c("Sample", "Genus", "Weight")
+# 
+# # Convert to presence/absence (1/0)
+# gen_list$Weight[gen_list$Weight > 1] <- 1
+# 
+# # Convert morphology matrix to long format
+# seed_mat_with_rowname <- rownames_to_column(seed_mat, var = "Sample")
+# seed_list <- melt(seed_mat_with_rowname)
+# colnames(seed_list) <- c("Sample", "Genus", "Weight")
+# 
+# # Convert to presence/absence (1/0)
+# seed_list$Weight[seed_list$Weight > 1] <- 1
 
 # Show ordered summary of genetic detections
-gen_list_summary <- gen_list %>%
-  group_by(Genus) %>%
-  summarise(n = sum(Weight))
+gen.list.summary <- genetic.list %>%
+  group_by(Taxa) %>%
+  summarise(n = sum(Detections))
 
-ordered <- gen_list_summary[order(-gen_list_summary$n), ]
+gen.list.summary.ordered <- gen.list.summary[order(-gen.list.summary$n), ]
+
 print(ordered, n = 41)
 
 ## 7.2 ALIGN MATRIX DIMENSIONS BY HANDLING MISSING DATA ----
 
 # FIND AND HANDLE DATA MISSING FROM MORPHOLOGY DATASET
-missing_from_morph <- gen_list %>% 
-  anti_join(seed_list, by = "Genus")
-missing_from_morph$Weight <- 0
-seed_complete <- bind_rows(seed_list, missing_from_morph)
+missing.from.morph <- genetic.list %>% 
+  anti_join(seed.list, by = "Taxa")
+
+missing.from.morph$Detections <- 0
+
+seed.complete <- bind_rows(seed.list, missing.from.morph)
 
 # FIND AND HANDLE DATA MISSING FROM GENETIC DATASET
-missing_from_gen <- seed_list %>% 
-  anti_join(gen_list, by = "Genus")
-missing_from_gen$Weight <- 0
-gen_complete <- bind_rows(gen_list, missing_from_gen)
+missing.from.gen <- seed.list %>% 
+  anti_join(genetic.list, by = "Taxa")
+
+missing.from.gen$Detections <- 0
+
+gen.complete <- bind_rows(genetic.list, missing.from.gen)
 
 # RECONSTRUCT MATRICES WITH COMPLETE DIMENSIONS
-genetic_matrix <- gen_complete %>%
-  pivot_wider(names_from = Genus, values_from = Weight) %>%
+genetic.matrix.complete <- gen.complete %>%
+  pivot_wider(names_from = Taxa, values_from = Detections) %>%
   column_to_rownames(var = "Sample")
 
-morpho_matrix <- seed_complete %>%
-  pivot_wider(names_from = Genus, values_from = Weight) %>%
+morpho.matrix.complete <- seed.complete %>%
+  pivot_wider(names_from = Taxa, values_from = Detections) %>%
   column_to_rownames(var = "Sample")
 
 # Standardize column order
-genetic_matrix <- genetic_matrix[, order(colnames(genetic_matrix))]
-morpho_matrix <- morpho_matrix[, order(colnames(morpho_matrix))]
+genetic.matrix.complete <- genetic.matrix.complete[, 
+                                                   order(colnames(
+                                                     genetic.matrix.complete))]
+morpho.matrix.complete <- morpho.matrix.complete[, 
+                                                 order(colnames(
+                                                   morpho.matrix.complete))]
 
 # Prepare for analysis by preserving row names
-genetic_matrix_w_rowname <- rownames_to_column(genetic_matrix, var = "Sample")
-morpho_matrix_w_rowname <- rownames_to_column(morpho_matrix, var = "Sample")
+genetic.matrix.complete.rn <- rownames_to_column(genetic.matrix.complete, 
+                                                 var = "Sample")
+
+morpho.matrix.complete.rn <- rownames_to_column(morpho.matrix.complete, 
+                                                var = "Sample")
 
 ## 7.3 JACCARD SIMILARITY ANALYSIS -----
 
@@ -522,14 +611,14 @@ calculate_jaccard <- function(x, y) {
 }
 
 # Calculate Jaccard Index for each sample
-overlap <- sapply(1:nrow(genetic_matrix_w_rowname), function(i) {
-  calculate_jaccard(genetic_matrix_w_rowname[i, -1], 
-                    morpho_matrix_w_rowname[i, -1])
+overlap <- sapply(1:nrow(genetic.matrix.complete.rn), function(i) {
+  calculate_jaccard(genetic.matrix.complete.rn[i, -1], 
+                    morpho.matrix.complete.rn[i, -1])
 })
 
 # Compile and display results
 result_jaccard <- data.frame(
-  Sample = genetic_matrix_w_rowname$Sample,
+  Sample = genetic.matrix.complete.rn$Sample,
   Jaccard_Index = overlap
 )
 
@@ -539,30 +628,31 @@ mean(result_jaccard$Jaccard_Index)
 sd(result_jaccard$Jaccard_Index)
 
 # 8 DETECTION SUCCESS ----
-genetic_data <- gen_sem_seq %>%
+genetic.detection <- gen.seeds.seq %>%
   select(3, 12)
 
-unique_detections_genetic <- genetic_data %>%
+genetic.detection.unique <- genetic.detection %>%
   distinct(sample, plant_genus)
 
-unique_detections_genetic$genetic <- TRUE
+genetic.detection.unique$genetic <- TRUE
 
-morph_data <- sem_morph_seq %>%
+morph.detection <- seeds.morph.seq %>%
   select(3,8)
 
-unique_detections_morph <- morph_data %>%
+morph.detection.unique <- morph.detection %>%
   distinct(sample, plant_genus)
 
-unique_detections_morph$morph <- TRUE
+morph.detection.unique$morph <- TRUE
 
 # Join on sample_id and genus
-detection_df <- full_join(unique_detections_genetic, unique_detections_morph, by = c("sample", "plant_genus")) %>%
-  mutate(
-    morph = ifelse(is.na(morph), FALSE, morph),
-    genetic = ifelse(is.na(genetic), FALSE, genetic)
+detection.df <- full_join(genetic.detection.unique, 
+                          morph.detection.unique, 
+                          by = c("sample", "plant_genus")) %>%
+                mutate(morph = ifelse(is.na(morph), FALSE, morph),
+                        genetic = ifelse(is.na(genetic), FALSE, genetic)
   )
 
-detection_summary <- detection_df %>%
+detection.summary <- detection.df %>%
   group_by(sample) %>%
   summarise(
     genetic_count = sum(genetic),
@@ -581,53 +671,44 @@ detection_summary <- detection_df %>%
     )
   )
 
-detection_summary$detection_success_morph <- detection_summary$morph_count / detection_summary$total_detected
+## 8.1 DETECTION SUMMARY COMPARISON-----
 
-mean(detection_summary$detection_success_morph)
-sd(detection_summary$detection_success_morph)
-
-detection_summary$detection_success_genetic <- detection_summary$genetic_count / detection_summary$total_detected
-
-mean(detection_summary$detection_success_genetic)
-sd(detection_summary$detection_success_genetic)
-
-mean(detection_summary$overlap_type == "Total")
-
-
-
-detection_summary$comparison <- ifelse(
-  detection_summary$genetic_count > detection_summary$morph_count, "Genetic > Morph",
+detection.summary$comparison <- ifelse(
+  detection.summary$genetic_count > detection.summary$morph_count, 
+  "Genetic > Morph",
   ifelse(
-    detection_summary$genetic_count < detection_summary$morph_count, "Morph > Genetic", 
+    detection.summary$genetic_count < detection.summary$morph_count, 
+    "Morph > Genetic", 
     "Equal"
   )
 )
 # Create the two-way table
-result_table <- table(
-  Overlap = detection_summary$overlap_type,
-  Comparison = detection_summary$comparison
+detection.success.overlap <- table(
+  Overlap = detection.summary$overlap_type,
+  Comparison = detection.summary$comparison
 )
 
 # To make it more readable, you might want to reorder the factors
-detection_summary$overlap_type <- factor(
-  detection_summary$overlap_type, 
+detection.summary$overlap_type <- factor(
+  detection.summary$overlap_type, 
   levels = c("Total", "Partial", "Absent")
 )
 
-detection_summary$comparison <- factor(
-  detection_summary$comparison,
+detection.summary$comparison <- factor(
+  detection.summary$comparison,
   levels = c("Equal", "Genetic > Morph", "Morph > Genetic")
 )
 
 # Now create the table with ordered factors
-result_table <- with(detection_summary, table(overlap_type, comparison))
+detection.success.overlap <- with(detection.summary, 
+                                  table(overlap_type, comparison))
 
 # Print the table
-result_table
+detection.success.overlap
 
-## 8.1 Lollipop graph visualization 
+## 8.2 LOLLIPOP GRAPH ------
 
-order_samples <- c("297", "195",
+order.samples.lolli <- c("297", "195",
                    "477", "027",
                    "290", 
                    "244", "087", "410", "481", "198", "199", "201", "482",
@@ -645,30 +726,37 @@ order_samples <- c("297", "195",
                    "084", "052", "050", "040"
 )
 
-detection_summary$detection_difference <- detection_summary$detection_success_genetic - detection_summary$detection_success_morph
+detection.summary$detection_difference_count <- detection.summary$genetic_count - detection.summary$morph_count
+
 # Reorder the dataframe
-detection_summary$sample <- 
-  factor(detection_summary$sample, levels = order_samples) # Apply the order
+detection.summary$sample <- 
+  factor(detection.summary$sample, levels = order.samples.lolli) # Apply the order
 
-recall_difference_df_ordered <- detection_summary[order(detection_summary$sample), ] # Reorder the rows
-
+detection.difference.ordered <- detection.summary[order(
+                                                  detection.summary$sample), ] 
+# Reorder the rows
 
 #visualization
 
-ggplot(recall_difference_df_ordered, aes(x = detection_difference, y = sample)) +
-  geom_segment(aes(x = 0, xend = detection_difference, y = sample, yend = sample), color = "grey") +  # Horizontal line
-  geom_point(aes(x = detection_difference, y = sample), 
-             size = 3) +  # Dot at the end
-  geom_vline(xintercept = 0, linetype = "dashed", color = "red") +  # Vertical line at 0
-  labs(title = "Difference Between Genetic and Morphological Methods for Each Sample",
-       x = "Difference (Genetic - Morphological)",
-       y = "Sample") +
-  theme_minimal() +
-  theme(panel.grid = element_blank(),  # Remove all gridlines
-        axis.text.y = element_text(size = 8)) +
-  xlim(-3, 3) +
-  scale_y_discrete(expand = expansion(mult = c(0.005, 0.005))) +
-  theme(axis.text.y = element_text(margin = margin(t = 10, b = 10)))
+ggplot(detection.difference.ordered, 
+       aes(x = detection_difference_count, y = sample)) +
+       geom_segment(aes(x = 0, xend = detection_difference_count, yend = sample), 
+                    color = "grey") +
+       geom_point(size = 3) +
+       geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+       labs(
+            title = 
+            "Difference Between Genetic and Morphological Methods for Each Sample",
+            x = "Difference (Genetic - Morphological)", y = "Sample"
+  ) +
+       theme_minimal() +
+       theme(
+            panel.grid = element_blank(),
+            axis.text.y = element_text(size = 8, margin = margin(t = 10, b = 10))
+  ) +
+       xlim(-5, 5) +
+       scale_y_discrete(expand = expansion(mult = c(0.005, 0.005)))
+
 
 
 ggsave(
@@ -678,29 +766,35 @@ ggsave(
   height = 8,                     # Height in inches
   dpi = 720                       # Resolution in dots per inch
 )
+## 8.3 RECALL -----
 
-# 9 VENN DIAGRAM -----
+detection.summary$recall_genetic <- detection.summary$overlap_count / detection.summary$morph_count
 
-n_distinct(detection_df$plant_genus)
+mean(detection.summary$recall_genetic)
 
-list_gen <- gen_list %>%
-  filter(Weight == 1) %>%
-  distinct(Genus)
+detection.summary$recall_morph <- detection.summary$overlap_count / detection.summary$genetic_count
 
-print(list_gen)
+mean(detection.summary$recall_morph)
 
 
-list_seeds <- seed_list %>%
-  filter(Weight == 1) %>%
-  distinct(Genus)
+## 8.4 VENN DIAGRAM -----
 
-n_distinct(list_seed_onlygen$Genus)
+
+genetic.taxa <- genetic.list %>%
+  filter(Detections == 1) %>%
+  distinct(Taxa)
+
+
+seed.taxa <- seed.list %>%
+  filter(Detections == 1) %>%
+  distinct(Taxa)
+
 
 list_seed_onlygen <- list_seeds[-c(18, 24:28), ]
 
 venn.plot <- venn.diagram(
-  x = list(Genetic = gen_list$Genus, 
-           Morphological = list_seed_onlygen$Genus),
+  x = list(Genetic = seed.taxa, 
+           Morphological = genetic.taxa),
   category.names = c("Genetic Data", "Morphological Data"),
   filename = NULL,
   output = TRUE,
@@ -720,10 +814,4 @@ grid.draw(venn.plot)
 only_genetic <- setdiff(list_gen, list_seeds)
 only_morph <- setdiff(list_seeds, list_gen)
 shared <- intersect(list_gen, list_seeds)
-
-writeClipboard(as.character(only_genetic$Genus))
-
-writeClipboard(as.character(only_morph$Genus))
-
-writeClipboard(as.character(shared$Genus))
 
