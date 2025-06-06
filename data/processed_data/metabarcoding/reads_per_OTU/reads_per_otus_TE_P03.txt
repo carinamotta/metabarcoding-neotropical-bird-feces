@@ -1,0 +1,3 @@
+#OTU ID	uniq1	uniq2	uniq3	uniq4	uniq5	uniq6
+otu1	34	23	9	6	0	2
+otu2	0	0	0	0	2	0

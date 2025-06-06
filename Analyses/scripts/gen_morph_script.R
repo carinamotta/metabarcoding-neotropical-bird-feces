@@ -1,5 +1,5 @@
 ## Created: 02-October-2024
-## Updated: 25-April-2025
+## Updated: 06-June-2025
 
 ## Author: Carina Isabella Motta
 
@@ -14,10 +14,9 @@
 package.list <- c("here", #makes this project the working directory
                   "tidyverse", #data cleaning
                   "dplyr", #data cleaning
-                  "reshape2", 
-                  "igraph",
+                  "reshape2", #matrix manipulation
                   "VennDiagram", #VennDiagram figure
-                  "ggalluvial" 
+                  "ggalluvial" #interaction web 
 )
 
 
@@ -34,26 +33,18 @@ for(i in package.list){library(i, character.only = T)}
 
 ## 2.1 LOAD SEED DATA----
 
-seeds <- readr::read_csv(here::here("Analyses","data",                                "seeds_28MAR2025_2.csv"))
-
-#transform into a tibble to facilitate using packages like dyplr 
-seeds <- as_tibble(sem)
+seeds <- readr::read_csv(here::here("analyses","data",                                "droppings_seeds.csv"))
 
 ## 2.2 LOAD SEED MORPHOSPECIES DATA----
 
-morpho <- readr::read_csv(here::here("Analyses", "data",                               "morpho_4APRIL2025.csv"))
-
-#transform into a tibble to facilitate using packages like dyplr 
-morpho <- as_tibble(morpho)
+morpho <- readr::read_csv(here::here("analyses", "data",                               "droppings_seeds_morphotypes.csv"))
 
 ## 2.3 LOAD METABARCODING DATA----
 
-gen <- readr::read_csv(here::here("Analyses","data",                                          "metabarcoding_results.csv"))
+gen <- readr::read_csv(here::here("analyses","data",                                          "droppings_metabarcoding.csv"))
 
-#transform into a tibble to facilitate using packages like dyplr 
-gen <- as_tibble(gen)
 
-# 3 DATA CLEANING AND PREP-------------------------------------------------------
+# 3 DATA CLEANING AND PREP-----------------------------------------------------
 
 ## 3.1 SEED & SEED MORPHOLOGY DATA----
 
@@ -71,7 +62,7 @@ morpho <- morpho %>%
 
 ### 3.1.3 MERGE SEED AND SEED MORPHOLOGY DATA----
 
-seeds.morph <- merge(x=seeds, y=morpho, by="morpho_spp", all.x =T)
+seeds.morph <- merge(x=seeds, y=morpho, by="seed_morpho", all.x =T)
 
 ##3.2 METABARCODING DATA----
 
@@ -126,14 +117,13 @@ n_distinct(seeds.morph.seq$sample) # 52, correctly filtered
 
 n_distinct(seeds.morph.seq$unique) # 36 morphospecies
 
-n_distinct(seeds.morph.seq$plant_family) #22 families
+n_distinct(seeds.morph.seq$plant_family) #21 families
 
 # calculate number of genera, excluding morphospecies identified to family or
 # unknown
 
 n_distinct(seeds.morph.seq %>%
-    filter(!plant_genus %in% c("Fabaceae_1", "Amaranthaceae", "unknown_2", 
-                               "unknown_3", "unknown_4", "Myrtaceae_2")) %>%
+    filter(!plant_genus == "NA") %>%
     pull(plant_genus)
 )
 
@@ -233,7 +223,7 @@ OTU.fate.summary <- OTU.fate %>%
 
 ## 5.2 READS & OTUs before quality filtering ---- 
 t.reads <- gen.seeds %>%
-  filter(!grepl("blank", sample),!is.na(OTU))  %>%
+  filter(!grepl("blank", sample),!is.na(OTU),!is.na(no_reads_OTU))  %>%
   group_by(OTU) %>%
   summarise(t_reads = sum(no_reads_OTU))
 
@@ -248,7 +238,7 @@ sd(t.reads$t_reads)
 
 # determine the number of OTUs recovered per sample
 t.OTU.sample <- gen.seeds %>%
-  filter(!grepl("blank", sample),!is.na(OTU))  %>%
+  filter(!grepl("blank", sample),!is.na(OTU), !is.na(no_reads_OTU))  %>%
   group_by(sample) %>%
   summarise(n_OTU = n_distinct(OTU))
 
@@ -293,7 +283,7 @@ mean(t.OTU.sample.filtered$n_OTU_filtered)
 
 sd(t.OTU.sample.filtered$n_OTU_filtered)
 
-## 5.3 PLANT GENERA----
+## 5.4 PLANT GENERA----
 
 n.plants <- gen.seeds %>%
   filter(!grepl("blank", sample), !is.na(OTU)) %>%
@@ -427,9 +417,10 @@ ggsave(
 # Create morphology matrix
 
 seed.matrix <- seeds.morph.seq %>%
-  group_by(sample, plant_genus) %>%
+  mutate(genus_final = ifelse(is.na(plant_genus), plant_genus_morpho, plant_genus)) %>%
+  group_by(sample, genus_final) %>%
   summarise(occurrences = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = plant_genus, 
+  pivot_wider(names_from = genus_final, 
               values_from = occurrences,
               values_fill = 0) %>%
   column_to_rownames(var = "sample")
@@ -523,32 +514,14 @@ morph.plot
 # save outputs 
 ggsave(
   filename = "morph_graph.svg",
-  plot = morph_plot,
+  plot = morph.plot,
   width = 4,
   height = 16,
   dpi = 720
 )
 
-#write.csv(df_seed, here::here("figures&results", "df_seed.csv"))
-
 # 7 JACCARD INDEX ----
 ## 7.1 CREATE MATRICES OF THE TWO DATASETS WITH MATCHING DIMENSIONS----
-
-# Convert genetic matrix to long format
-# gen.matrix.w.rowname <- rownames_to_column(gen.matrix, var = "Sample")
-# gen_list <- melt(gen_mat_with_rowname)
-# colnames(gen_list) <- c("Sample", "Genus", "Weight")
-# 
-# # Convert to presence/absence (1/0)
-# gen_list$Weight[gen_list$Weight > 1] <- 1
-# 
-# # Convert morphology matrix to long format
-# seed_mat_with_rowname <- rownames_to_column(seed_mat, var = "Sample")
-# seed_list <- melt(seed_mat_with_rowname)
-# colnames(seed_list) <- c("Sample", "Genus", "Weight")
-# 
-# # Convert to presence/absence (1/0)
-# seed_list$Weight[seed_list$Weight > 1] <- 1
 
 # Show ordered summary of genetic detections
 gen.list.summary <- genetic.list %>%
@@ -557,7 +530,7 @@ gen.list.summary <- genetic.list %>%
 
 gen.list.summary.ordered <- gen.list.summary[order(-gen.list.summary$n), ]
 
-print(ordered, n = 41)
+print(gen.list.summary.ordered, n = 41)
 
 ## 7.2 ALIGN MATRIX DIMENSIONS BY HANDLING MISSING DATA ----
 
@@ -780,26 +753,25 @@ mean(detection.summary$recall_morph)
 ## 8.4 VENN DIAGRAM -----
 
 
-genetic.taxa <- genetic.list %>%
-  filter(Detections == 1) %>%
+genetic.taxa <- df.genetic %>%
   distinct(Taxa)
 
 
-seed.taxa <- seed.list %>%
-  filter(Detections == 1) %>%
+seed.taxa <- df.seed %>%
   distinct(Taxa)
 
+seed.taxa <- as.character(seed.taxa$Taxa)
+genetic.taxa <- as.character(genetic.taxa$Taxa)
 
-list_seed_onlygen <- list_seeds[-c(18, 24:28), ]
 
 venn.plot <- venn.diagram(
-  x = list(Genetic = seed.taxa, 
-           Morphological = genetic.taxa),
-  category.names = c("Genetic Data", "Morphological Data"),
+  x = list(Morphological = seed.taxa,
+           Genetic = genetic.taxa),
+  category.names = c("Morphological Data", "Genetic Data"),
   filename = NULL,
   output = TRUE,
   col = "black",
-  fill = c("darkgreen", "orange"),
+  fill = c("green", "darkgreen"),
   alpha = 0.5,
   label.col = c("white", "white", "black"),
   cex = 2,
@@ -809,9 +781,10 @@ venn.plot <- venn.diagram(
   cat.col = c("black", "black")
 )
 
+grid.newpage()
 grid.draw(venn.plot)
 
-only_genetic <- setdiff(list_gen, list_seeds)
-only_morph <- setdiff(list_seeds, list_gen)
-shared <- intersect(list_gen, list_seeds)
+only.genetic <- setdiff(genetic.taxa, seed.taxa)
+only.morph <- setdiff(seed.taxa, genetic.taxa)
+shared <- intersect(genetic.taxa, seed.taxa)
 
