@@ -405,7 +405,7 @@ genetic.plot
 # Save outputs
 
 ggsave(
-  filename = "gen_graph.svg",
+  filename = here::here("analyses", "figures&results", "gen_graph.svg"),
   plot = genetic.plot,
   width = 4,
   height = 16,
@@ -513,7 +513,7 @@ morph.plot
 
 # save outputs 
 ggsave(
-  filename = "morph_graph.svg",
+  filename = here::here("analyses", "figures&results", "morph_graph.svg"),
   plot = morph.plot,
   width = 4,
   height = 16,
@@ -733,7 +733,7 @@ ggplot(detection.difference.ordered,
 
 
 ggsave(
-  filename = "lollipop_graph_COLOR.svg", # File name
+  filename = here::here("analyses", "figures&results", "lollipop_graph_COLOR.svg"), # File name
   plot = last_plot(),             # Optional: explicitly specify the plot
   width = 8,                      # Width in inches
   height = 8,                     # Height in inches
@@ -788,3 +788,4 @@ only.genetic <- setdiff(genetic.taxa, seed.taxa)
 only.morph <- setdiff(seed.taxa, genetic.taxa)
 shared <- intersect(genetic.taxa, seed.taxa)
 
+file.remove(list.files(pattern = "*.log$"))
