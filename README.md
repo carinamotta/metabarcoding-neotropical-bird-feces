@@ -4,7 +4,7 @@
 Carina Motta (carina.i.motta@unesp.br; carinaisabellamotta@gmail.com)
 
 ## Description
-This dataset contains information on bird fecal samples collected in Corumbataí River Basin, São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding.  Assembled reads are provided here (data > processed_data > metabarcoding) but raw sequence data are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590. 
+This dataset contains information on bird fecal samples collected in Corumbataí River Basin, São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding. Plant DNA extracted from 52 seed-containing droppings was amplified using universal plant primer for a rbcL mini-barcode. Morphologically detected seeds were cross-referenced with metabarcoding-detected genera. Assembled reads are provided here (data > processed_data > metabarcoding) but raw sequence data are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590. 
 
 ## Associated Publication 
 
