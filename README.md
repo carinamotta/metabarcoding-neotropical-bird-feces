@@ -1,21 +1,20 @@
-# Dataset Title
-"Comparing DNA Metabarcoding & morphological seed analysis of Neotropical bird feces"
+# Comparing DNA Metabarcoding & morphological seed analysis of Neotropical bird feces
 
-## Author(s)
+## Author
 Carina Motta (carina.i.motta@unesp.br; carinaisabellamotta@gmail.com)
 
 ## Description
-This dataset contains information on bird fecal samples collected in Corumbataí River Basin, São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding.  Assembled reads are provided here (data > processed_data > metabarcoding) but raw sequence data are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590
+This dataset contains information on bird fecal samples collected in Corumbataí River Basin, São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding.  Assembled reads are provided here (data > processed_data > metabarcoding) but raw sequence data are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590. 
 
 ## Folder Structure & Files Included
 analyses/
-├── data/
-	- droppings_metabarcoding.csv
-	- droppings_seeds.csv
-	- droppings_seeds_morphotypes.csv 
-├── figures_and_results/
-└── scripts/
-	- gen_morph_script.R
+	data/
+		- droppings_metabarcoding.csv
+		- droppings_seeds.csv
+		- droppings_seeds_morphotypes.csv 
+	figures_and_results/
+	scripts/
+		- gen_morph_script.R
 data/
 ├── raw_data/ 
 	- MottaCarina_bird_captures.xlsx: Capture data and corresponding dropping collection
