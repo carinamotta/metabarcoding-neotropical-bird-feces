@@ -9,7 +9,9 @@ This dataset contains information on bird fecal samples collected in Corumbataí
 ## Folder Structure & Files Included
 analyses/
 	data/
-		- droppings_metabarcoding.csv
+		
+
+- droppings_metabarcoding.csv
 		- droppings_seeds.csv
 		- droppings_seeds_morphotypes.csv 
 	figures_and_results/
