@@ -3,9 +3,12 @@
 
 ## Author: Carina Isabella Motta
 
-## Evaluating a  DNA metabarcoding approach of bird feces to quantify and predict seed dispersal
+## Evaluating a  DNA metabarcoding approach of bird feces to quantify and 
+## predict seed dispersal
 
-# Data cleaning and analysis to compare two data sets: Morphological identifications of seeds and identification of plant DNA in same bird feces 
+# Data cleaning and analysis to compare two data sets: 
+# Morphological identifications of seeds and 
+# identification of plant DNA in same bird feces 
 
 # 1 LOAD PACKAGES------------------------------------------------------------
 
@@ -33,15 +36,18 @@ for(i in package.list){library(i, character.only = T)}
 
 ## 2.1 LOAD SEED DATA----
 
-seeds <- readr::read_csv(here::here("analyses","data",                                "droppings_seeds.csv"))
+seeds <- readr::read_csv(here::here("data", 
+                                    "droppings_seeds.csv"))
 
 ## 2.2 LOAD SEED MORPHOSPECIES DATA----
 
-morpho <- readr::read_csv(here::here("analyses", "data",                               "droppings_seeds_morphotypes.csv"))
+morpho <- readr::read_csv(here::here("data",
+                                     "droppings_seeds_morphotypes.csv"))
 
 ## 2.3 LOAD METABARCODING DATA----
 
-gen <- readr::read_csv(here::here("analyses","data",                                          "droppings_metabarcoding.csv"))
+gen <- readr::read_csv(here::here("data",
+                                  "droppings_metabarcoding.csv"))
 
 
 # 3 DATA CLEANING AND PREP-----------------------------------------------------
@@ -171,6 +177,23 @@ seeds.summary.plants <- seeds.morph.seq %>%
 mean(seeds.summary.plants$n_samples)
 
 sd(seeds.summary.plants$n_samples)
+
+## 4.3 SEED MORPHOLOGY TAXA SUMMARY (APPENDIX S1)-----------------------------
+
+seed.summary <- seeds.morph.seq %>%
+  group_by(plant_genus_morpho) %>%
+  summarise(
+    plant_family = first(plant_family),
+    plant_genus = first(plant_genus),
+    n_droppings = n_distinct(sample), 
+    n_bird_spp = n_distinct(bird_species), 
+    seed_sum = sum(no_seeds),
+    .groups = "drop"
+  )
+
+write.csv(seed.summary, here::here("analyses",
+                                   "figures&results", 
+                                   "Appendix_S1.csv"))
 
 # 5 METABARCODING SUMMARY STATISTICS----
 ## 5.1 FATE SUMMARIES----
@@ -303,6 +326,20 @@ n_distinct(n.plants %>%
 
 
 
+## 5.5 METABARCODING TAXA SUMMARY (APPENDIX S2)-------------------------------
+
+gen.summary <- gen.seeds.seq %>%
+group_by(plant_genus) %>%
+  summarise(
+    plant_family = first(plant_family),
+    n_droppings = n_distinct(sample), 
+    n_bird_spp = n_distinct(bird_species), 
+    .groups = "drop"
+  )
+
+write.csv(gen.summary, here::here("analyses",
+                                   "figures&results", 
+                                   "Appendix_S2.csv"))
 # 6 TRIPARTITE VISUALIZATION ----
 ## 6.1 CREATE INTERACTION MATRIX WITH GENETIC DATA-----
 
@@ -438,8 +475,6 @@ colnames(seed.list) <- c("Sample", "Taxa", "Detections")
 # Ensure presence/absence (1/0)
 seed.list$Detections[seed.list$Detections > 1] <- 1
 
-# Save intermediate matrix
-#write.csv(seed_mat, here::here("figures&results", "seed_mat.csv"))
 
 # Filter to only positive detections
 df.seed <- subset(seed.list, Detections >= 1)

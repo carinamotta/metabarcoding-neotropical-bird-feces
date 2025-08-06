@@ -1,2 +1,0 @@
-#OTU ID	uniq1	uniq2
-otu1	2	2
