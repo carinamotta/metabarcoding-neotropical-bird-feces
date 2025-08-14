@@ -11,29 +11,27 @@ This dataset contains information on bird dropping samples collected in Corumbat
 
 ## Folder Structure & Files Included
 
-- **data** 
-	- droppings_metabarcoding.csv: 
-	- droppings_seeds.csv
-	- droppings_seeds_morphotypes.csv 
- 	- bird_captures.csv
-  	-bird_spp_family.csv
-   
+- **data**
+  - **droppings_metabarcoding.csv** – spreadsheet of raw metabarcoding results
+  - **droppings_seeds.csv** – seed and morphotype counts per dropping
+  - **droppings_seeds_morphotypes.csv** – morphotype ID table
+  - **bird_captures.csv** – capture records
+  - **bird_spp_family.csv** – bird species and family list
+
 - **figures_and_results**
-	- morph_graph.svg 
- 	- gen_graph.svg
-  	- Appendix_S2.csv
-   	- Appendix_S1.csv
-	- Table_1.csv
+  - **morph_graph.svg** – morphology-based interaction 
+  - **gen_graph.svg** – genetic-based interaction
+  - **Appendix_S2.csv** – Supplementary table S2
+  - **Appendix_S1.csv** – Supplementary table S1
+  - **Table_1.csv** – Main manuscript table 1
+
 - **scripts**
-	- gen_morph_script.R
- 	- captures&samples_script.R
+  - **gen_morph_script.R** – script for morphology/genetic comparison
+  - **captures&samples_script.R** – script for capture/sampling data processing
 
 
 ## Methods
-
-Full DNA extraction protocol can be found at dx.doi.org/10.17504/protocols.io.8epv527x5v1b/v1. For full methods, please see assocaited publication:
-
-
+Full DNA extraction protocol can be found at dx.doi.org/10.17504/protocols.io.8epv527x5v1b/v1. For full methods, please see associated publication:
 
 ## Licensing
 This dataset is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
