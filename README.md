@@ -1,30 +1,41 @@
-# Dataset Title
-"Comparing DNA Metabarcoding & morphological seed analysis of Neotropical bird feces"
+# Comparing DNA Metabarcoding & morphological seed analysis of Neotropical bird feces
 
-## Author(s)
-Carina Motta (carina.i.motta@unesp.br; carinaisabellamotta@gmail.com)
+## Authors
+Carina I. Motta (carina.i.motta@unesp.br; carinaisabellamotta@gmail.com)
+Bruno H. Saranholi
+Vinicius Marciano De Godoy
+Marina Corrêa Côrtes
+
 
 ## Description
-This dataset contains information on bird fecal samples collected in Corumbataí River Basin, São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding.  Assembled reads are provided here (data > processed_data > metabarcoding) but raw sequence data are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590
+These data and analyses are associated with the following publcation:
+
+This dataset contains information on bird fecal samples collected in Corumbataí River Basin (22°13′22.1″S 47°37′24.2″W), São Paulo, Brazil between August 2022 and August 2023. Seeds found in feces samples (n = 64) were morphologically classified as morphotypes and material from the feces was sequenced using metabarcoding.  Assembled reads are provided on an Open Science Framework (OSF) respository (Link will be inserted following release date in February, 2026). Raw sequence data of de-multiplexed reads are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590 (Link will be inserted following release date in December, 2025). 
 
 ## Folder Structure & Files Included
-├── data/
-	- droppings_metabarcoding.csv
+
+data
+	- droppings_metabarcoding.csv: 
 	- droppings_seeds.csv
 	- droppings_seeds_morphotypes.csv 
-├── figures_and_results/
-└── scripts/
+ 	- bird_captures.csv
+  	-bird_spp_family.csv
+   
+figures_and_results
+	- morph_graph.svg 
+ 	- gen_graph.svg
+  	- Appendix_S2.csv
+   	- Appendix_S1.csv
+	- Table_1.csv
+scripts
 	- gen_morph_script.R
+ 	- captures&samples_script.R
 
 
 ## Methods
 
-Full DNA extraction protocol can be found at dx.doi.org/10.17504/protocols.io.8epv527x5v1b/v1.
-Briefly describe:
-- Sample collection procedures
-- Morphological identification criteria
-- DNA extraction, sequencing, and bioinformatics pipeline
-- Any filtering or data cleaning steps
+Full DNA extraction protocol can be found at dx.doi.org/10.17504/protocols.io.8epv527x5v1b/v1. For full methods, please see assocaited publication:
+
 
 
 ## Licensing
