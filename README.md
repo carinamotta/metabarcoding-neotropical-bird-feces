@@ -7,6 +7,8 @@
 ## Description
 These data and analyses are associated with the following publcation:
 
+Motta, C. I., B. H. Saranholi, V. M. De Godoy, and M. Corrêa Côrtes. 2025. DNA metabarcoding reveals greater plant diversity than morphological seed analysis of bird feces. Applications in Plant Sciences 
+
 This dataset contains information on bird dropping samples collected in Corumbataí River Basin (22°13′22.1″S 47°37′24.2″W), São Paulo, Brazil between August 2022 and August 2023. Seeds found in dropping samples (n = 64) were morphologically classified as morphotypes and material from the droppings was sequenced using metabarcoding.  Assembled reads are provided on an Open Science Framework (OSF) respository (Link will be inserted following release date in February, 2026). Raw sequence data of de-multiplexed reads are available in the NCBI BioProject and in the Sequence Read Archive repository under Accession number PRJNA1203590 (Link will be inserted following release date in December, 2025). 
 
 ## Folder Structure & Files Included
@@ -32,6 +34,8 @@ This dataset contains information on bird dropping samples collected in Corumbat
 
 ## Methods
 Full DNA extraction protocol can be found at dx.doi.org/10.17504/protocols.io.8epv527x5v1b/v1. For full methods, please see associated publication:
+
+Motta, C. I., B. H. Saranholi, V. M. De Godoy, and M. Corrêa Côrtes. 2025. DNA metabarcoding reveals greater plant diversity than morphological seed analysis of bird feces. Applications in Plant Sciences 
 
 ## Licensing
 This dataset is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
